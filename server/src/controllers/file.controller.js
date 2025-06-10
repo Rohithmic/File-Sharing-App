@@ -1,14 +1,12 @@
-import { File } from '../models/file.models.js';
-import s3 from "../config/s3.js";
-import bcrypt from "bcryptjs";
-import AWS from "aws-sdk";
-import nodemailer from "nodemailer";
-import shortid from "shortid";
-import QRCode from "qrcode";
-import { User } from '../models/user.models.js';
-import path from "path";
-
-
+const { File } = require('../models/file.models');
+const s3 = require("../config/s3");
+const bcrypt = require("bcryptjs");
+const AWS = require("aws-sdk");
+const nodemailer = require("nodemailer");
+const shortid = require("shortid");
+const QRCode = require("qrcode");
+const { User } = require('../models/user.models');
+const path = require("path");
 
 const uploadFiles = async (req, res) => {
   if (!req.files || req.files.length === 0) {
@@ -102,9 +100,6 @@ const uploadFiles = async (req, res) => {
   }
 };
 
-
-
-
 const downloadFile = async (req, res) => {
     const { fileId } = req.params;
     const { password } = req.query;
@@ -169,7 +164,6 @@ const downloadFile = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
-
 
 const deleteFile = async (req, res) => {
      const { fileId } = req.params;
@@ -286,7 +280,6 @@ const updateFilePassword = async (req, res) => {
     return res.status(500).json({ error: "Error updating file password" });
   }
 };
-
 
 const searchFiles = async (req, res) => {
   const { query } = req.query; // Search query string
@@ -440,7 +433,6 @@ const getDownloadCount = async (req, res) => {
   }
 }
 
-
 const resolveShareLink = async (req, res) => {
   const { code } = req.params;
   const shortUrl = `${process.env.BASE_URL}/f/${code}`;
@@ -494,7 +486,6 @@ const verifyFilePassword = async (req, res) => {
 };
 
 const getUserFiles = async (req, res) => {
-
   const { userId } = req.params;
   try {
     const files = await File.find({ createdBy: userId });
@@ -511,9 +502,7 @@ const getUserFiles = async (req, res) => {
   }
 }
 
-
-
-export {
+module.exports = {
     uploadFiles,
     downloadFile,
     deleteFile,
