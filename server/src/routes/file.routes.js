@@ -1,6 +1,24 @@
-import express, { Router } from "express"
-import upload from "../middlewares/upload.middlewares.js";
-import { deleteFile, downloadFile, generateQR, generateShareShortenLink, getDownloadCount, getFileDetails, getUserFiles, resolveShareLink, searchFiles, sendLinkEmail, showUserFiles, updateFileExpiry, updateFilePassword, updateFileStatus, uploadFiles, verifyFilePassword } from "../controllers/file.controller.js";
+const express = require("express");
+const { Router } = express;
+const upload = require("../middlewares/upload.middlewares");
+const { 
+    deleteFile, 
+    downloadFile, 
+    generateQR, 
+    generateShareShortenLink, 
+    getDownloadCount, 
+    getFileDetails, 
+    getUserFiles, 
+    resolveShareLink, 
+    searchFiles, 
+    sendLinkEmail, 
+    showUserFiles, 
+    updateFileExpiry, 
+    updateFilePassword, 
+    updateFileStatus, 
+    uploadFiles, 
+    verifyFilePassword 
+} = require("../controllers/file.controller");
 
 const router = Router();
 
@@ -25,4 +43,4 @@ router.post('/verifyFilePassword', verifyFilePassword);
 
 router.get('/getUserFiles/:userId', getUserFiles);
 
-export default router;
+module.exports = router;
