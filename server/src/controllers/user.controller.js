@@ -1,9 +1,9 @@
-import { User } from "../models/user.models.js";
-import bcrypt from "bcryptjs";
-import express, { Router } from "express";
-
-import jwt from "jsonwebtoken";
-import { v4 as uuidv4 } from "uuid";
+const { User } = require("../models/user.models");
+const bcrypt = require("bcryptjs");
+const express = require("express");
+const { Router } = express;
+const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require("uuid");
 
 const generateUniqueId = () => {
   return uuidv4();
@@ -205,8 +205,9 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-export {
+module.exports = {
   registerUser,
+  logoutUser,
   getUsers,
   getUserById,
   updateUser,
@@ -214,5 +215,4 @@ export {
   loginUser,
   verifyToken,
   generateUniqueId,
-  logoutUser,
 };
