@@ -1,25 +1,18 @@
-import { app } from "./app.js";
-import dotenv from "dotenv"
-import connectDB from "./db/index.js"
-import fileRoutes from "./routes/file.routes.js"
-import userRoutes from "./routes/user.routes.js"
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-import express from "express"
-import cors from "cors"
-
+const { app } = require("./app");
+const dotenv = require("dotenv");
+const connectDB = require("./db/index");
+const fileRoutes = require("./routes/file.routes");
+const userRoutes = require("./routes/user.routes");
+const path = require('path');
+const express = require("express");
+const cors = require("cors");
 
 dotenv.config();
 
-const PORT=process.env.PORT || 5600;
+const PORT = process.env.PORT || 5600;
 
-      
 const startServer = async () => {
-     try {
+  try {
     await connectDB();
 
     // Register API routes
@@ -45,6 +38,6 @@ const startServer = async () => {
   } catch (error) {
     console.error("❌ Error starting server:", error);
   }
-  };
-  
-  startServer();
+};
+
+startServer();
