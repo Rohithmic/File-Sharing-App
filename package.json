@@ -1,0 +1,26 @@
+{
+  "name": "snedz",
+  "version": "1.0.0",
+  "description": "A modern file sharing application",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd server && npm start\" \"cd client && npm run dev\"",
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rohithmic/File-Sharing-App.git"
+  },
+  "keywords": [],
+  "author": "Rohit Ratnam",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Rohithmic/File-Sharing-App/issues"
+  },
+  "homepage": "https://github.com/Rohithmic/File-Sharing-App#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

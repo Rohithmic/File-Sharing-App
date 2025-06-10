@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "snedz-server",
   "version": "1.0.0",
-  "description": "Created by Rohit Ratnam - Passionate developer and coding enthusiast, always eager to learn new technologies, solve challenging problems, and build impactful digital experiences for users worldwide.",
+  "description": "Backend for Snedz - A modern file sharing application created by Rohit Ratnam",
   "main": "index.js",
   "type": "module",
   "scripts": {

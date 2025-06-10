@@ -11,7 +11,7 @@ const Home = () => {
     <div className="font-sans bg-gray-50 text-gray-800">
       {/* Header */}
       <header className="bg-gray-900 text-white text-center py-6">
-        <h1 className="text-4xl font-bold">🚀 Share Pod</h1>
+        <h1 className="text-4xl font-bold">🚀 Snedz</h1>
         <p className="mt-2 text-lg">Fast, secure & simple file sharing solution</p>
       </header>
 
@@ -32,7 +32,7 @@ const Home = () => {
 
       {/* Features */}
       <section className="bg-gray-100 py-14 px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">Why Choose Share Pod?</h2>
+        <h2 className="text-3xl font-bold text-center mb-12">Why Choose Snedz?</h2>
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
             <IoMdCloudUpload size={60} className="mx-auto mb-4 text-blue-500" />
@@ -139,7 +139,7 @@ const Home = () => {
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white text-center py-6">
-        <p>&copy; {new Date().getFullYear()} Share Pod. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Snedz. All rights reserved.</p>
         <div className="flex justify-center space-x-4 mt-2">
           <a href="https://facebook.com" className="hover:text-blue-400"><FaFacebook size={24} /></a>
           <a href="https://twitter.com" className="hover:text-sky-400"><FaTwitter size={24} /></a>
