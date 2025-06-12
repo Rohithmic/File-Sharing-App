@@ -1,26 +1,26 @@
 import express from "express";
-const { Router } = express;
-import upload from "../middlewares/upload.middlewares.mjs";
-import { 
-    deleteFile, 
-    downloadFile, 
-    generateQR, 
-    generateShareShortenLink, 
-    getDownloadCount, 
-    getFileDetails, 
-    getUserFiles, 
-    resolveShareLink, 
-    searchFiles, 
-    sendLinkEmail, 
-    showUserFiles, 
-    updateFileExpiry, 
-    updateFilePassword, 
-    updateFileStatus, 
-    uploadFiles, 
-    verifyFilePassword 
-} from "../controllers/file.controller.js";
+import { upload } from "../middlewares/upload.middlewares.mjs";
+import {
+  uploadFiles,
+  downloadFile,
+  deleteFile,
+  updateFileStatus,
+  updateFileExpiry,
+  updateFilePassword,
+  searchFiles,
+  showUserFiles,
+  getFileDetails,
+  generateShareShortenLink,
+  sendLinkEmail,
+  generateQR,
+  getDownloadCount,
+  resolveShareLink,
+  verifyFilePassword,
+  getUserFiles,
+} from "../controllers/file.controller.mjs";
+import { verifyToken } from "../middlewares/auth.middlewares.mjs";
 
-const router = Router();
+const router = express.Router();
 
 router.post("/upload", upload.array('files'), uploadFiles);
 router.post("/download/:fileId", downloadFile);
