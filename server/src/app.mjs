@@ -1,11 +1,11 @@
-const express = require("express");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const morgan = require("morgan");
-const dotenv = require("dotenv");
-const fileRoutes = require("./routes/file.routes");
-const userRoutes = require("./routes/user.routes");
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import morgan from "morgan";
+import dotenv from "dotenv";
+import fileRoutes from "./routes/file.routes.mjs";
+import userRoutes from "./routes/user.routes.mjs";
 
 dotenv.config();
 
@@ -26,4 +26,4 @@ app.use(morgan('dev'));
 app.use("/api/files", fileRoutes);
 app.use("/api/users", userRoutes);
 
-module.exports = { app };
+export { app };

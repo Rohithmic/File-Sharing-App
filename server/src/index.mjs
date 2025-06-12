@@ -1,11 +1,15 @@
-const { app } = require("./app");
-const dotenv = require("dotenv");
-const connectDB = require("./db/index");
-const fileRoutes = require("./routes/file.routes");
-const userRoutes = require("./routes/user.routes");
-const path = require('path');
-const express = require("express");
-const cors = require("cors");
+import { app } from "./app.mjs";
+import dotenv from "dotenv";
+import connectDB from "./db/index.mjs";
+import fileRoutes from "./routes/file.routes.mjs";
+import userRoutes from "./routes/user.routes.mjs";
+import path from 'path';
+import express from "express";
+import cors from "cors";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 

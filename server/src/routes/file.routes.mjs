@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
 const { Router } = express;
-const upload = require("../middlewares/upload.middlewares");
-const { 
+import upload from "../middlewares/upload.middlewares.mjs";
+import { 
     deleteFile, 
     downloadFile, 
     generateQR, 
@@ -18,7 +18,7 @@ const {
     updateFileStatus, 
     uploadFiles, 
     verifyFilePassword 
-} = require("../controllers/file.controller");
+} from "../controllers/file.controller.js";
 
 const router = Router();
 
@@ -43,4 +43,4 @@ router.post('/verifyFilePassword', verifyFilePassword);
 
 router.get('/getUserFiles/:userId', getUserFiles);
 
-module.exports = router;
+export default router;
