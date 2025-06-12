@@ -23,17 +23,9 @@ const startServer = async () => {
     app.use("/api/files", fileRoutes);
     app.use("/api/users", userRoutes);
 
-    // Serve static files from the client's dist directory
-    app.use(express.static(path.join(__dirname, '../../client/dist')));
-
-    // Handle shared file links
-    app.get('/f/:shortCode', (req, res) => {
-      res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
-    });
-
-    // Handle all other routes by serving the index.html
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+    // Add root route handler
+    app.get("/", (req, res) => {
+      res.json({ message: "Welcome to Snedz API Server" });
     });
 
     app.listen(PORT, () => {
