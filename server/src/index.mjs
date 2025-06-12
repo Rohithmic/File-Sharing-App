@@ -19,6 +19,12 @@ const startServer = async () => {
   try {
     await connectDB();
 
+    // Add request logging middleware
+    app.use((req, res, next) => {
+      console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+      next();
+    });
+
     // Register API routes
     app.use("/api/files", fileRoutes);
     app.use("/api/users", userRoutes);
@@ -28,8 +34,19 @@ const startServer = async () => {
       res.json({ message: "Welcome to Snedz API Server" });
     });
 
+    // Add a catch-all route for debugging
+    app.use((req, res) => {
+      console.log(`404 - Not Found: ${req.method} ${req.url}`);
+      res.status(404).json({ 
+        error: "Not Found",
+        path: req.url,
+        method: req.method
+      });
+    });
+
     app.listen(PORT, () => {
       console.log(`✅ Server is running at http://localhost:${PORT}`);
+      console.log(`✅ API URL: ${process.env.CLIENT_URL || 'http://localhost:5600'}`);
     });
   } catch (error) {
     console.error("❌ Error starting server:", error);

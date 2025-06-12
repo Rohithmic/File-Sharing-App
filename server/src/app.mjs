@@ -11,11 +11,25 @@ dotenv.config();
 
 const app = express();
 
-// Configure CORS to allow requests from both development and production URLs
-app.use(cors({
-    origin: [process.env.CLIENT_URL, 'http://localhost:5173', 'http://localhost:5600'],
-    credentials: true
-}));
+// Configure CORS
+const corsOptions = {
+    origin: [
+        'https://file-sharing-app-drab.vercel.app',
+        'http://localhost:5173',
+        'http://localhost:5600'
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    exposedHeaders: ['Content-Range', 'X-Content-Range'],
+    maxAge: 86400 // 24 hours
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 
 app.use(cookieParser());
 app.use(bodyParser.json());
