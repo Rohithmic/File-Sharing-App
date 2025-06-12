@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5600/api/";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://snedz-server.onrender.com/api/";
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
     withCredentials: true,

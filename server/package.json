@@ -2,12 +2,12 @@
   "name": "snedz-server",
   "version": "1.0.0",
   "description": "Backend for Snedz - A modern file sharing application created by Rohit Ratnam",
-  "main": "src/index.js",
-  "type": "commonjs",
+  "main": "src/index.mjs",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.mjs",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.mjs"
   },
   "author": "Rohit Ratnam",
   "license": "ISC",
