@@ -1,4 +1,5 @@
 {
-  "buildCommand": "cd client && npm run build",
-  "outputDirectory": "client/dist"
+  "buildCommand": "chmod +x deploy.sh && ./deploy.sh",
+  "outputDirectory": "client/dist",
+  "framework": "vite"
 } 
