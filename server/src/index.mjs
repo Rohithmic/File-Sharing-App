@@ -1,8 +1,6 @@
 import { app } from "./app.mjs";
 import dotenv from "dotenv";
 import connectDB from "./db/index.mjs";
-import fileRoutes from "./routes/file.routes.mjs";
-import userRoutes from "./routes/user.routes.mjs";
 import path from 'path';
 import express from "express";
 import cors from "cors";
@@ -17,6 +15,17 @@ const PORT = process.env.PORT || 5600;
 
 const startServer = async () => {
   try {
+    // Check required environment variables
+    const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET'];
+    const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+    
+    if (missingVars.length > 0) {
+      console.error(`❌ Missing required environment variables: ${missingVars.join(', ')}`);
+      process.exit(1);
+    }
+    
+    console.log('✅ Environment variables check passed');
+    
     await connectDB();
 
     // Add request logging middleware
@@ -24,10 +33,6 @@ const startServer = async () => {
       console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
       next();
     });
-
-    // Register API routes
-    app.use("/api/files", fileRoutes);
-    app.use("/api/users", userRoutes);
 
     // Add root route handler
     app.get("/", (req, res) => {
