@@ -13,13 +13,15 @@ const registerUser = async (req, res) => {
   const { fullname, email, password } = req.body;
 
   try {
+    console.log('Registration attempt:', { fullname, email, password: password ? '***' : 'missing' });
+    
     const existedUser = await User.findOne({ email });
     if (existedUser) {
       return res.status(400).json({ message: "Email already in use." });
     }
 
     if (!fullname || !email || !password) {
-      return res.status(400).json({ message: "All are required." });
+      return res.status(400).json({ message: "All fields are required." });
     }
 
     if (password.length < 6) {
@@ -38,30 +40,32 @@ const registerUser = async (req, res) => {
     if (!emailRegex.test(email)) {
       return res.status(400).json({ message: "Invalid email format." });
     }
- const cleanedFullname = fullname.trim().replace(/\s+/g, '');
-const username = `${cleanedFullname.substring(0, 4).toLowerCase()}${generateUniqueId().substring(0, 5)}`;
+    
+    const cleanedFullname = fullname.trim().replace(/\s+/g, '');
+    const username = `${cleanedFullname.substring(0, 4).toLowerCase()}${generateUniqueId().substring(0, 5)}`;
 
-
-   
-
-    const pic=Math.floor(Math.random()*100)+1;
-    const profilePic=`https://avatar.iran.liara.run/public/${pic}`
-
-
+    const pic = Math.floor(Math.random() * 100) + 1;
+    const profilePic = `https://avatar.iran.liara.run/public/${pic}`;
 
     const newUser = new User({
       fullname,
       username,
       email,
-        password,
+      password,
       profilePic
     });
 
+    console.log('Attempting to save user:', { fullname, username, email });
     await newUser.save();
+    console.log('User saved successfully');
+    
     return res.status(201).json({ message: "User registered successfully." });
   } catch (error) {
     console.error("Error during registration:", error);
-    return res.status(500).json({ message: "Error during registration" });
+    return res.status(500).json({ 
+      message: "Error during registration",
+      error: error.message 
+    });
   }
 };
 
