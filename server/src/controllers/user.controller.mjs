@@ -1,9 +1,8 @@
-const { User } = require("../models/user.models");
-const bcrypt = require("bcryptjs");
-const express = require("express");
-const { Router } = express;
-const jwt = require("jsonwebtoken");
-const { v4: uuidv4 } = require("uuid");
+import { User } from "../models/user.models.mjs";
+import bcrypt from "bcryptjs";
+import express from "express";
+import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 
 const generateUniqueId = () => {
   return uuidv4();
@@ -93,7 +92,19 @@ const getUserById = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.status(200).json(user);
+    res.status(200).json({
+      id: user._id,
+      fullname: user.fullname,
+      username: user.username,
+      email: user.email,
+      profilePic: user.profilePic,
+      lastLogin: user.lastLogin,
+      totalUploads: user.totalUploads,
+      totalDownloads: user.totalDownloads,
+      videoCount: user.videoCount,
+      imageCount: user.imageCount,
+      documentCount: user.documentCount,
+    });
   } catch (error) {
     res.status(500).json({ message: "Error fetching user" });
   }
@@ -198,21 +209,20 @@ const verifyToken = (req, res, next) => {
   }
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "Invalid token" });
     }
     req.userId = decoded.userId;
     next();
   });
 };
 
-module.exports = {
+export {
   registerUser,
+  loginUser,
   logoutUser,
   getUsers,
   getUserById,
   updateUser,
   deleteUser,
-  loginUser,
-  verifyToken,
-  generateUniqueId,
-};
+  verifyToken
+}; 

@@ -38,7 +38,7 @@ const FileUpload = () => {
     formData.append('password', password);
     formData.append('hasExpiry', hasExpiry);
     formData.append('expiresAt', expiresAt);
-    formData.append('userId', user._id);
+    formData.append('userId', user.id);
 
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/files/upload`, {

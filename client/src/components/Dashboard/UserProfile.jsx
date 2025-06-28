@@ -11,12 +11,12 @@ const UserProfile = () => {
   const [newUsername, setNewUsername] = useState(user.username);
 
   const handleUpdate = () => {
-    dispatch(updateUser({ userId: user._id, username: newUsername }));
+    dispatch(updateUser({ userId: user.id, username: newUsername }));
     setEditModalOpen(false);
   };
 
   const handleDelete = () => {
-    dispatch(deleteUser(user._id));
+    dispatch(deleteUser(user.id));
     setDeleteModalOpen(false);
   };
 
@@ -35,7 +35,7 @@ const UserProfile = () => {
           <p className="text-gray-600">@{user.username}</p>
           <p className="text-gray-700">{user.email}</p>
           <p className="text-sm text-gray-500">
-            User ID: <span className="text-xs text-gray-700">{user._id}</span>
+            User ID: <span className="text-xs text-gray-700">{user.id}</span>
           </p>
         </div>
       </div>

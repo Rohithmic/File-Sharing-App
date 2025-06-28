@@ -11,8 +11,8 @@ const FileShow = () => {
   const [shareFile, setShareFile] = useState(null); // For the share modal
 
   useEffect(() => {
-    if (user && user._id) {
-      dispatch(getUserFiles(user._id));
+    if (user && user.id) {
+      dispatch(getUserFiles(user.id));
     }
   }, [user, dispatch]);
 

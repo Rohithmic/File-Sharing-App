@@ -1,5 +1,5 @@
 import express from "express";
-import { upload } from "../middlewares/upload.middlewares.mjs";
+import upload from "../middlewares/upload.middlewares.mjs";
 import {
   uploadFiles,
   downloadFile,
@@ -18,7 +18,6 @@ import {
   verifyFilePassword,
   getUserFiles,
 } from "../controllers/file.controller.mjs";
-import { verifyToken } from "../middlewares/auth.middlewares.mjs";
 
 const router = express.Router();
 

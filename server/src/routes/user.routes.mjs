@@ -8,7 +8,7 @@ import {
     updateUser, 
     deleteUser, 
     logoutUser 
-} from "../controllers/user.controller.js";
+} from "../controllers/user.controller.mjs";
 import authenticate from "../middlewares/auth.middlewares.mjs";
 
 const router = Router();

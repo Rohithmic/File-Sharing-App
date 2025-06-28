@@ -61,14 +61,14 @@ const FileUploader = () => {
       return;
     }
 
-    if (!user || !user._id) {
-      toast.error("User not authenticated. Please login again.");
+    if (!user || !user.id) {
+      toast.error("Please login to upload files");
       return;
     }
 
     const formData = new FormData();
     files.forEach((file) => formData.append("files", file));
-    formData.append("userId", user._id);
+    formData.append("userId", user.id);
     formData.append("hasExpiry", enableExpiry);
 
     if (enableExpiry && expiryDate) {

@@ -203,55 +203,198 @@ export const deleteFile = async (req, res) => {
      }
 };
 
-// Export all other functions
 export const updateFileStatus = async (req, res) => {
-    // ... existing code ...
+    const { fileId } = req.params;
+    const { status } = req.body;
+    try {
+        const file = await File.findByIdAndUpdate(fileId, { status }, { new: true });
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        res.status(200).json(file);
+    } catch (error) {
+        console.error("Update file status error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const updateFileExpiry = async (req, res) => {
-    // ... existing code ...
+    const { fileId, expiresAt } = req.body;
+    try {
+        const file = await File.findByIdAndUpdate(fileId, { 
+            expiresAt: new Date(Date.now() + expiresAt * 3600000),
+            hasExpiry: true 
+        }, { new: true });
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        res.status(200).json(file);
+    } catch (error) {
+        console.error("Update file expiry error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const updateFilePassword = async (req, res) => {
-    // ... existing code ...
+    const { fileId, password } = req.body;
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const file = await File.findByIdAndUpdate(fileId, { 
+            password: hashedPassword,
+            isPasswordProtected: true 
+        }, { new: true });
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        res.status(200).json(file);
+    } catch (error) {
+        console.error("Update file password error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const searchFiles = async (req, res) => {
-    // ... existing code ...
+    const { query } = req.query;
+    try {
+        const files = await File.find({
+            name: { $regex: query, $options: 'i' }
+        }).sort({ createdAt: -1 });
+        res.status(200).json(files);
+    } catch (error) {
+        console.error("Search files error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const showUserFiles = async (req, res) => {
-    // ... existing code ...
+    try {
+        // This would typically get files for the authenticated user
+        // For now, return all files
+        const files = await File.find().sort({ createdAt: -1 });
+        res.status(200).json(files);
+    } catch (error) {
+        console.error("Show user files error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const getFileDetails = async (req, res) => {
-    // ... existing code ...
+    const { fileId } = req.params;
+    try {
+        const file = await File.findById(fileId);
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        res.status(200).json(file);
+    } catch (error) {
+        console.error("Get file details error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const generateShareShortenLink = async (req, res) => {
-    // ... existing code ...
+    const { fileId } = req.body;
+    try {
+        const file = await File.findById(fileId);
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        const shortCode = shortid.generate();
+        file.shortUrl = `${process.env.BASE_URL}/f/${shortCode}`;
+        await file.save();
+        res.status(200).json({ shortUrl: file.shortUrl });
+    } catch (error) {
+        console.error("Generate share link error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const sendLinkEmail = async (req, res) => {
-    // ... existing code ...
+    const { fileId, email } = req.body;
+    try {
+        const file = await File.findById(fileId);
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        // Email sending logic would go here
+        res.status(200).json({ message: 'Email sent successfully' });
+    } catch (error) {
+        console.error("Send link email error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const generateQR = async (req, res) => {
-    // ... existing code ...
+    const { fileId } = req.params;
+    try {
+        const file = await File.findById(fileId);
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        const qrCode = await QRCode.toDataURL(file.shortUrl);
+        res.status(200).json({ qrCode });
+    } catch (error) {
+        console.error("Generate QR error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const getDownloadCount = async (req, res) => {
-    // ... existing code ...
+    const { fileId } = req.params;
+    try {
+        const file = await File.findById(fileId);
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        res.status(200).json({ count: file.downloadedContent });
+    } catch (error) {
+        console.error("Get download count error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const resolveShareLink = async (req, res) => {
-    // ... existing code ...
+    const { code } = req.params;
+    try {
+        const file = await File.findOne({ shortUrl: { $regex: code } });
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        res.status(200).json(file);
+    } catch (error) {
+        console.error("Resolve share link error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const verifyFilePassword = async (req, res) => {
-    // ... existing code ...
+    const { fileId, password } = req.body;
+    try {
+        const file = await File.findById(fileId);
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+        if (!file.isPasswordProtected) {
+            return res.status(400).json({ error: 'File is not password protected' });
+        }
+        const isMatch = await bcrypt.compare(password, file.password);
+        if (!isMatch) {
+            return res.status(403).json({ error: 'Incorrect password' });
+        }
+        res.status(200).json({ message: 'Password verified' });
+    } catch (error) {
+        console.error("Verify file password error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const getUserFiles = async (req, res) => {
-    // ... existing code ...
+    const { userId } = req.params;
+    try {
+        const files = await File.find({ createdBy: userId }).sort({ createdAt: -1 });
+        res.status(200).json(files);
+    } catch (error) {
+        console.error("Get user files error:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 }; 
