@@ -17,7 +17,7 @@ const FileDownload = () => {
   useEffect(() => {
     const fetchFile = async () => {
       try {
-        const response = await publicAxios.get(`/api/files/${code}`);
+        const response = await publicAxios.get(`/files/${code}`);
         setFile(response.data);
       } catch (err) {
         setError(err.response?.data?.message || 'File not found');
@@ -36,7 +36,7 @@ const FileDownload = () => {
     setError('');
 
     try {
-      const response = await publicAxios.post(`/api/files/download/${file._id}`, {
+      const response = await publicAxios.post(`/files/download/${file._id}`, {
         password: password,
       });
 

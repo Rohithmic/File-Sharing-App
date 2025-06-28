@@ -54,6 +54,11 @@ const fileSchema = new Schema({
     type: String,
     default: null,
   },
+  shortCode: {
+    type: String,
+    default: null,
+    index: true,
+  },
   // ✅ User ID
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

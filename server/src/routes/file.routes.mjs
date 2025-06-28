@@ -17,6 +17,7 @@ import {
   resolveShareLink,
   verifyFilePassword,
   getUserFiles,
+  migrateShortCodes,
 } from "../controllers/file.controller.mjs";
 
 const router = express.Router();
@@ -37,9 +38,13 @@ router.get('/showUserFiles', showUserFiles);
 router.get('/generateQR/:fileId', generateQR);
 router.get('/getDownloadCount/:fileId', getDownloadCount);
 
+// Place this before the catch-all /:code route to avoid conflicts
 router.get('/resolveShareLink/:code', resolveShareLink);
+router.get('/:code', resolveShareLink);
 router.post('/verifyFilePassword', verifyFilePassword);
 
 router.get('/getUserFiles/:userId', getUserFiles);
+
+router.post('/migrate', migrateShortCodes);
 
 export default router;

@@ -59,6 +59,7 @@ export const uploadFiles = async (req, res) => {
             : new Date(Date.now() + 10 * 24 * 3600000),
           status: 'active',
           shortUrl: `${process.env.BASE_URL}/f/${shortCode}`,
+          shortCode: shortCode,
           createdBy: userId,
         };
 
@@ -105,7 +106,7 @@ export const uploadFiles = async (req, res) => {
 
 export const downloadFile = async (req, res) => {
     const { fileId } = req.params;
-    const { password } = req.query;
+    const { password } = req.body;
     try {
         const file = await File.findById(fileId);
         if (!file) {
@@ -300,6 +301,7 @@ export const generateShareShortenLink = async (req, res) => {
             return res.status(404).json({ error: 'File not found' });
         }
         const shortCode = shortid.generate();
+        file.shortCode = shortCode;
         file.shortUrl = `${process.env.BASE_URL}/f/${shortCode}`;
         await file.save();
         res.status(200).json({ shortUrl: file.shortUrl });
@@ -355,10 +357,20 @@ export const getDownloadCount = async (req, res) => {
 
 export const resolveShareLink = async (req, res) => {
     const { code } = req.params;
+    console.log('Received code:', code);
     try {
-        const file = await File.findOne({ shortUrl: { $regex: code } });
+        const file = await File.findOne({ shortCode: code });
+        console.log('File found:', file);
         if (!file) {
             return res.status(404).json({ error: 'File not found' });
+        }
+        // Check if file has expired
+        if (file.hasExpiry && new Date(file.expiresAt) < new Date()) {
+            return res.status(410).json({ error: 'This file has expired' });
+        }
+        // Check if file is active
+        if (file.status !== 'active') {
+            return res.status(403).json({ error: 'This file is not available' });
         }
         res.status(200).json(file);
     } catch (error) {
@@ -396,5 +408,37 @@ export const getUserFiles = async (req, res) => {
     } catch (error) {
         console.error("Get user files error:", error);
         res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+export const migrateShortCodes = async (req, res) => {
+    try {
+        // Find all files that have shortUrl but no shortCode
+        const filesToMigrate = await File.find({ 
+            shortUrl: { $exists: true, $ne: null },
+            shortCode: { $exists: false }
+        });
+        
+        let migratedCount = 0;
+        
+        for (const file of filesToMigrate) {
+            // Extract shortCode from shortUrl
+            const urlParts = file.shortUrl.split('/');
+            const shortCode = urlParts[urlParts.length - 1];
+            
+            if (shortCode) {
+                file.shortCode = shortCode;
+                await file.save();
+                migratedCount++;
+            }
+        }
+        
+        res.status(200).json({ 
+            message: `Migration completed. ${migratedCount} files updated.`,
+            migratedCount 
+        });
+    } catch (error) {
+        console.error("Migration error:", error);
+        res.status(500).json({ error: 'Migration failed' });
     }
 }; 

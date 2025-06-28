@@ -19,10 +19,9 @@ const getApiUrl = () => {
 const BASE_URL = getApiUrl();
 
 const axiosInstance = axios.create({
-    baseURL: BASE_URL,
+    baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true,
     headers: {
-        'Content-Type': 'application/json',
         'Accept': 'application/json'
     }
 });

@@ -41,7 +41,7 @@ const FileUpload = () => {
     formData.append('userId', user.id);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/files/upload`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/files/upload`, {
         method: 'POST',
         body: formData,
         credentials: 'include',
