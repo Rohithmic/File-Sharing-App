@@ -71,4 +71,17 @@ app.use(morgan('dev'));
 app.use("/api/files", fileRoutes);
 app.use("/api/users", userRoutes);
 
+// Add a test endpoint
+app.get("/api/test", (req, res) => {
+  res.json({ 
+    message: "API is working",
+    timestamp: new Date().toISOString(),
+    env: {
+      hasMongoUri: !!process.env.MONGODB_URI,
+      hasJwtSecret: !!process.env.JWT_SECRET,
+      allowedOrigins: process.env.ALLOWED_ORIGINS
+    }
+  });
+});
+
 export { app };
