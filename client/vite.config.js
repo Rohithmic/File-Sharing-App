@@ -18,6 +18,7 @@ export default defineConfig({
       }
     }
   },
+  publicDir: 'public',
   base: '/',
   preview: {
     port: 5173,
