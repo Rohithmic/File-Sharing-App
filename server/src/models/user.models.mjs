@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   documentCount: { type: Number, default: 0 },
   profilePic: { type: String, default: 'https://avatar.iran.liara.run/public/1' },  // Optional for user profile picture
   lastLogin: { type: Date, default: Date.now },
-});
+}, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {

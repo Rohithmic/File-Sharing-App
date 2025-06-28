@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { loadUserFromStorage } from "./redux/slice/auth/authSlice";
 import RequireAuth from "./components/Auth/RequireAuth";
 import NoRequireAuth from "./components/Auth/NotRequireAuth";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -23,7 +24,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
+    <ThemeProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         
@@ -41,7 +42,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
         </Route>
       </Routes>
-    </>
+    </ThemeProvider>
   );
 }
 

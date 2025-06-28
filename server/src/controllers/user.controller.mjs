@@ -108,6 +108,7 @@ const getUserById = async (req, res) => {
       videoCount: user.videoCount,
       imageCount: user.imageCount,
       documentCount: user.documentCount,
+      createdAt: user.createdAt,
     });
   } catch (error) {
     res.status(500).json({ message: "Error fetching user" });
@@ -198,6 +199,7 @@ const loginUser = async (req, res) => {
         email: user.email,
         profilePic: user.profilePic,
         lastLogin: user.lastLogin,
+        createdAt: user.createdAt,
       },
     });
   } catch (error) {
