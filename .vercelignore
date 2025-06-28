@@ -1,0 +1,9 @@
+# Ignore server files for Vercel deployment
+server/
+node_modules/
+.git/
+.gitignore
+README.md
+package.json
+package-lock.json
+DEPLOYMENT.md 
