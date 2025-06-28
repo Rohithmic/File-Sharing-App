@@ -17,6 +17,10 @@ const allowedOrigins = [
     'https://snedz.vercel.app',
     'https://snedz-git-main-rohitratnam2428.vercel.app',
     'https://snedz-rohitratnam2428.vercel.app',
+    'https://snedz.netlify.app',
+    'https://snedz-app.netlify.app',
+    'https://file-sharing-app.netlify.app',
+    'https://snedz-file-sharing.netlify.app',
     'http://localhost:5173',
     'http://localhost:5600',
     'http://localhost:3000'
@@ -32,6 +36,11 @@ const corsOptions = {
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
+        
+        // Allow any Netlify domain
+        if (origin.includes('netlify.app')) {
+            return callback(null, true);
+        }
         
         if (allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
